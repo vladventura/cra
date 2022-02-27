@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { connect } from 'react-redux';
+import { getAll } from "./store/actions/reducerActions";
+import { BrowserRouter as Router, Route, Routes , Switch} from 'react-router-dom';
+import MainPage from './components/MainPage';
+import { useEffect } from 'react';
 
-function App() {
+const AppComponent = (props) => {
+
+  useEffect(() => {
+    props.getAll();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+        <Route exact path="/" element={<MainPage />} />
+    </Routes>
   );
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAll: () => dispatch(getAll())
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AppComponent);
